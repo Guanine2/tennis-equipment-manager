@@ -25,4 +25,4 @@ jobs:
       with:
        context: .
        push: true
-       tags: kicsipixel/githubaction:latest
+       tags: jguan848/tennis-equipment-manager:latest
