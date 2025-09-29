@@ -1,0 +1,14 @@
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Backend
+backend/venv/
+backend/__pycache__/
+backend/*.sqlite3
+
+# Global ignores
+.env
+*.log
+.DS_Store
+backend/config/tennis-equipment-manager-firebase-adminsdk-fbsvc-638e71e074.json

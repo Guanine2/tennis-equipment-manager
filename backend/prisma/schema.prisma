@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model brand {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique @db.VarChar(50)
+  racquet racquet[]
+}
+
+model racquet {
+  id             Int              @id @default(autoincrement())
+  name           String           @db.VarChar(50)
+  brand_id       Int
+  head_in        Float?
+  head_cm        Float?
+  length_in      Float?
+  length_cm      Float?
+  weight_g       Float?
+  weight_oz      Float?
+  swing_weight   Int?
+  player_racquet player_racquet[]
+  brand          brand            @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  firebase_uid    String           @id
+  email           String?
+  display_name    String?
+  profile_picture String?
+  created_at      DateTime?        @default(now()) @db.Timestamp(6)
+  last_login      DateTime?        @db.Timestamp(6)
+
+  // 1-to-many relation: one user can have many racquets
+  player_racquet  player_racquet[]
+}
+
+model player_racquet {
+  firebase_uid    String   // must match type of users.firebase_uid
+  racquet_id      Int
+  string_type     String?
+  string_tension  Int?     @db.SmallInt
+  tension_unit    String?
+
+  // relation to users via firebase_uid
+  user    users   @relation(fields: [firebase_uid], references: [firebase_uid], onDelete: NoAction, onUpdate: NoAction)
+  racquet racquet @relation(fields: [racquet_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([firebase_uid, racquet_id])
+}
+
+
