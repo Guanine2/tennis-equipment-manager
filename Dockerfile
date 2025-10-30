@@ -18,7 +18,7 @@ RUN npm install --production
 COPY backend/ ./
 
 # Copy built frontend into backend's public folder (Express can serve it)
-COPY --from=frontend-build /app/frontend/build ./public
+COPY --from=frontend-build /app/frontend/dist ./public
 
 # Expose backend port
 EXPOSE 5000
